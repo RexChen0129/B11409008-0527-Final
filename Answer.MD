@@ -100,7 +100,27 @@ Prompt C：好，那現在請幫我照你說的，改l1、d2、c_res這三個變
 請貼上執行程式並輸入 show 後，顯示資料清單。(請從呼叫執行程式到結束程式完整的把操作對話複製到下框)
 
 ```log
-
+PS C:\Users\pclab\finExam> & C:/Users/pclab/AppData/Local/Programs/Python/Python313/python.exe c:/Users/pclab/finExam/legacy_lib.py
+=== 圖書管理系統 v0.2 (Refactored with Stats) ===
+> add 深入淺出Python/978001/available
+Success
+> add 資料結構理論/978002/available
+Success
+> add 演算法實作/978003/available
+Success
+> add 重複測試書/978001/available
+ISBN 已存在
+> borrow 978002
+已更新狀態為借出
+> show
+書名: 深入淺出Python, ISBN: 978001, 狀態: available
+書名: 資料結構理論, ISBN: 978002, 狀態: borrowed
+書名: 演算法實作, ISBN: 978003, 狀態: available
+> exit
+=== 圖書分類統計 ===
+available: 2 本
+borrowed: 1 本
+系統關閉
 ```
 
 ### 3.2 產出的資料檔案格式
