@@ -23,14 +23,26 @@ def isbn_exists(library_data, isbn):
     """檢查指定 ISBN 是否存在於圖書資料中"""
     return any(book['isbn'] == isbn for book in library_data)
 
+def show_statistics(library_data):
+    """計算並顯示各分類狀態的總額"""
+    stats = {}
+    for book in library_data:
+        status = book['status']
+        stats[status] = stats.get(status, 0) + 1
+    
+    print("=== 圖書分類統計 ===")
+    for status, count in stats.items():
+        print(f"{status}: {count} 本")
+
 def main():
     library_data = load_library_data()  # 載入圖書資料
-    print("=== 圖書管理系統 v0.1 (Refactored) ===")
+    print("=== 圖書管理系統 v0.2 (Refactored with Stats) ===")
     
     while True:
         op = input("> ").strip()
         
         if op == "exit":
+            show_statistics(library_data)  # 在結束前顯示統計
             save_library_data(library_data)  # 儲存圖書資料
             print("系統關閉")
             break
