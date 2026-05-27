@@ -129,11 +129,21 @@ borrowed: 1 本
 
 ```json
 [
-  {
-    "title": "XXX",
-    "isbn": "XXX",
-    "status": "XXX"
-  }
+    {
+        "title": "深入淺出Python",
+        "isbn": "978001",
+        "status": "available"
+    },
+    {
+        "title": "資料結構理論",
+        "isbn": "978002",
+        "status": "borrowed"
+    },
+    {
+        "title": "演算法實作",
+        "isbn": "978003",
+        "status": "available"
+    }
 ]
 ```
 
@@ -146,6 +156,11 @@ borrowed: 1 本
 
 ```log
 # 請在此處貼上 git log 內容
+3cf6e70 (HEAD -> master, origin/master) v4
+86f7197 v3
+e6ca8ef v2
+28d259b v1
+b9f1c45 commit時的說明文字
 ```
 
 ### 4.2. GitHub Repository 連結(此小題7分)
@@ -154,6 +169,10 @@ borrowed: 1 本
 
 ```log
 # 請貼上你的 Repo 網址
+
+https://github.com/RexChen0129/B11409008-0527-Final
+
+https://github.com/RexChen0129/B11409008-0527-Final.git
 ```
 
 希望這兩份 Markdown 格式能幫你省下不少排版時間！祝你的考試順利舉行！
