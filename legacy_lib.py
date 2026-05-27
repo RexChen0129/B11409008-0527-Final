@@ -1,62 +1,70 @@
 import os
+import json
 
-d2 = []
-F_NAME = "lib_data.txt"
+FILE_NAME = "lib_data.json"  # 改用 JSON 格式儲存資料
 
-def load_proc():
-    if os.path.exists(F_NAME):
-        f = open(F_NAME, "r", encoding="utf-8")
-        l1 = f.readlines()
-        for x in l1:
-            p = x.strip().split("@@")
-            p2 = p[1].split("##")
-            d2.append({"t": p[0], "i": p2[0], "s": p2[1]})
-        f.close()
+def load_library_data():
+    """從檔案載入圖書資料"""
+    if os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "r", encoding="utf-8") as file:
+            try:
+                return json.load(file)  # 使用 JSON 解析檔案
+            except json.JSONDecodeError:
+                print("檔案格式錯誤，無法載入資料")
+                return []
+    return []
 
-def c_res(v):
-    for b in d2:
-        if b['i'] == v:
-            return True
-    return False
+def save_library_data(library_data):
+    """將圖書資料儲存到檔案"""
+    with open(FILE_NAME, "w", encoding="utf-8") as file:
+        json.dump(library_data, file, ensure_ascii=False, indent=4)
+
+def isbn_exists(library_data, isbn):
+    """檢查指定 ISBN 是否存在於圖書資料中"""
+    return any(book['isbn'] == isbn for book in library_data)
 
 def main():
-    load_proc()
-    print("=== 圖書管理系統 v0.1 (Legacy) ===")
+    library_data = load_library_data()  # 載入圖書資料
+    print("=== 圖書管理系統 v0.1 (Refactored) ===")
     
     while True:
         op = input("> ").strip()
         
         if op == "exit":
-            f = open(F_NAME, "w", encoding="utf-8")
-            for b in d2:
-                f.write(f"{b['t']}@@{b['i']}##{b['s']}\n")
-            f.close()
+            save_library_data(library_data)  # 儲存圖書資料
             print("系統關閉")
             break
             
         elif op.startswith("add "):
             raw = op[4:].split("/")
             if len(raw) == 3:
-                if not c_res(raw[1]):
-                    d2.append({"t": raw[0], "i": raw[1], "s": raw[2]})
+                title, isbn, status = raw
+                if not isbn_exists(library_data, isbn):
+                    library_data.append({"title": title, "isbn": isbn, "status": status})
                     print("Success")
                 else:
-                    print("ISBN Exist")
+                    print("ISBN 已存在")
             else:
-                print("Format Error")
+                print("格式錯誤，請使用: add 書名/ISBN/狀態")
                 
         elif op == "show":
-            for b in d2:
-                print(f"書名: {b['t']}, ISBN: {b['i']}, 狀態: {b['s']}")
+            for book in library_data:
+                print(f"書名: {book['title']}, ISBN: {book['isbn']}, 狀態: {book['status']}")
                 
         elif op.startswith("borrow "):
             target_isbn = op[7:]
-            for b in d2:
-                if b['i'] == target_isbn:
-                    b['s'] = "borrowed"
-                    print("Updated")
+            for book in library_data:
+                if book['isbn'] == target_isbn:
+                    if book['status'] != "borrowed":
+                        book['status'] = "borrowed"
+                        print("已更新狀態為借出")
+                    else:
+                        print("此書已被借出")
+                    break
+            else:
+                print("找不到指定的 ISBN")
         else:
-            print("Unknown Command")
+            print("未知指令")
 
 if __name__ == "__main__":
     main()
